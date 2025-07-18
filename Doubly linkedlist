@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+// Insert at head
+void insertAtHead(struct Node** head, int val) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = val;
+    newNode->prev = NULL;
+    newNode->next = *head;
+    if (*head != NULL)
+        (*head)->prev = newNode;
+    *head = newNode;
+}
+
+// Insert at tail
+void insertAtTail(struct Node** head, int val) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = val;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        newNode->prev = NULL;
+        *head = newNode;
+        return;
+    }
+
+    struct Node* temp = *head;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newNode;
+    newNode->prev = temp;
+}
+
+// Display list
+void display(struct Node* head) {
+    struct Node* temp = head;
+    printf("List: ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    struct Node* head = NULL;
+
+    insertAtHead(&head, 10);
+    insertAtHead(&head, 5);
+    insertAtTail(&head, 20);
+    insertAtTail(&head, 25);
+
+    display(head);
+
+    return 0;
+}
